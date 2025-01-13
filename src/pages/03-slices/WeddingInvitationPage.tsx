@@ -1,4 +1,5 @@
 import { WhiteCard } from "../../components";
+import { useBinCardState } from "../../stores/bincards/bincards.store";
 import { useWeddingBoundStore } from "../../stores/wedding";
 
 export const WeddingInvitationPage = () => {
@@ -17,6 +18,10 @@ export const WeddingInvitationPage = () => {
 
   const isConfirmed = useWeddingBoundStore((state) => state.isConfirmed);
   const setIsConfirmed = useWeddingBoundStore((state) => state.setIsConfirmed);
+
+  const getEvaluateMinAmount = useBinCardState(
+    (state) => state.getEvaluateMinAmount
+  );
   return (
     <>
       <h1>Invitación de Boda</h1>
@@ -37,7 +42,10 @@ export const WeddingInvitationPage = () => {
                     name="firstName"
                     id="firstName"
                     value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                      getEvaluateMinAmount(4000, "VISA PLATINIUM");
+                    }}
                     placeholder="Primer Nombre"
                   />
                 </div>
