@@ -1,8 +1,22 @@
-import { WhiteCard } from '../../components';
-
-
+import { WhiteCard } from "../../components";
+import { useWeddingBoundStore } from "../../stores/wedding";
 
 export const WeddingInvitationPage = () => {
+  const firstName = useWeddingBoundStore((state) => state.firstName);
+  const lastName = useWeddingBoundStore((state) => state.lastName);
+  const setFirstName = useWeddingBoundStore((state) => state.setFirstName);
+  const setLastName = useWeddingBoundStore((state) => state.setLastName);
+  const guestCount = useWeddingBoundStore((state) => state.guestCount);
+  const setGuestCount = useWeddingBoundStore((state) => state.setGuestCount);
+
+  const eventYYYYMMDD = useWeddingBoundStore((state) => state.eventYYYYMMDD());
+  const eventHHMM = useWeddingBoundStore((state) => state.eventHHMM());
+
+  const setEventDate = useWeddingBoundStore((state) => state.setEventDate);
+  const setEventTime = useWeddingBoundStore((state) => state.setEventTime);
+
+  const isConfirmed = useWeddingBoundStore((state) => state.isConfirmed);
+  const setIsConfirmed = useWeddingBoundStore((state) => state.setIsConfirmed);
   return (
     <>
       <h1>Invitación de Boda</h1>
@@ -15,24 +29,22 @@ export const WeddingInvitationPage = () => {
             <div className="-mx-3 flex flex-wrap">
               <div className="w-full px-3 sm:w-1/2">
                 <div className="mb-5">
-                  <label
-                    className="mb-3 block text-base font-medium text-[#07074D]"
-                  >
+                  <label className="mb-3 block text-base font-medium text-[#07074D]">
                     Primer Nombre
                   </label>
                   <input
                     type="text"
                     name="firstName"
                     id="firstName"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                     placeholder="Primer Nombre"
                   />
                 </div>
               </div>
               <div className="w-full px-3 sm:w-1/2">
                 <div className="mb-5">
-                  <label
-                    className="mb-3 block text-base font-medium text-[#07074D]"
-                  >
+                  <label className="mb-3 block text-base font-medium text-[#07074D]">
                     Apellido
                   </label>
                   <input
@@ -40,14 +52,14 @@ export const WeddingInvitationPage = () => {
                     name="lastName"
                     id="lastName"
                     placeholder="Apellido"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
               </div>
             </div>
             <div className="mb-5">
-              <label
-                className="mb-3 block text-base font-medium text-[#07074D]"
-              >
+              <label className="mb-3 block text-base font-medium text-[#07074D]">
                 ¿Cuántos invitados traerá?
               </label>
               <input
@@ -56,6 +68,8 @@ export const WeddingInvitationPage = () => {
                 id="guestNumber"
                 placeholder="5"
                 min="0"
+                value={guestCount}
+                onChange={(e) => setGuestCount(Number(e.target.value))}
                 className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -63,12 +77,12 @@ export const WeddingInvitationPage = () => {
             <div className="-mx-3 flex flex-wrap">
               <div className="w-full px-3 sm:w-1/2">
                 <div className="mb-5">
-                  <label
-                    className="mb-3 block text-base font-medium text-[#07074D]"
-                  >
+                  <label className="mb-3 block text-base font-medium text-[#07074D]">
                     Fecha de evento
                   </label>
                   <input
+                    value={eventYYYYMMDD}
+                    onChange={(e) => setEventDate(e.target.value)}
                     type="date"
                     name="eventDate"
                     id="eventDate"
@@ -77,12 +91,12 @@ export const WeddingInvitationPage = () => {
               </div>
               <div className="w-full px-3 sm:w-1/2">
                 <div className="mb-5">
-                  <label
-                    className="mb-3 block text-base font-medium text-[#07074D]"
-                  >
+                  <label className="mb-3 block text-base font-medium text-[#07074D]">
                     Hora del evento
                   </label>
                   <input
+                    value={eventHHMM}
+                    onChange={(e) => setEventTime(e.target.value)}
                     type="time"
                     name="eventTime"
                     id="eventTime"
@@ -99,26 +113,26 @@ export const WeddingInvitationPage = () => {
                 <div className="flex items-center">
                   <input
                     type="radio"
+                    checked={isConfirmed}
                     name="isComing"
+                    onChange={() => setIsConfirmed(true)}
                     id="radioButton1"
                     className="h-5 w-5"
                   />
-                  <label
-                    className="pl-3 text-base font-medium text-[#07074D]"
-                  >
+                  <label className="pl-3 text-base font-medium text-[#07074D]">
                     Si
                   </label>
                 </div>
                 <div className="flex items-center">
                   <input
                     type="radio"
+                    checked={!isConfirmed}
+                    onChange={() => setIsConfirmed(false)}
                     name="isComing"
                     id="radioButton2"
                     className="h-5 w-5"
                   />
-                  <label
-                    className="pl-3 text-base font-medium text-[#07074D]"
-                  >
+                  <label className="pl-3 text-base font-medium text-[#07074D]">
                     No
                   </label>
                 </div>
@@ -126,9 +140,7 @@ export const WeddingInvitationPage = () => {
             </div>
 
             <div>
-              <button>
-                Enviar
-              </button>
+              <button>Enviar</button>
             </div>
           </form>
         </div>
